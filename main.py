@@ -4,7 +4,7 @@
 
 import socket
 import string
-from pynput.keyboard import key, controller
+from pynput.keyboard import Key, Controller
 
 #Functions
 def openSocket(HOST, PORT, PASS, IDENT, CHANNEL):
@@ -89,4 +89,24 @@ while True:
             keyboard.press('s')
             time.sleep(0.1)
             keyboard.release('s')
+        if "jump" == message.lower():
+            keyboard.press(Key.space)
+            if "jump+w" == message.lower():
+                keyboard.press('w')
+            if "jump+a" == message.lower():
+                keyboard.press('a')
+            if "jump+d" == message.lower():
+                keyboard.press('d')
+            if "jump+s" == message.lower():
+                keyboard.press('s')
+            time.sleep(0.1)
+            keyboard.release(Key.space)
+            if "jump+w" == message.lower():
+                keyboard.release('w')
+            if "jump+a" == message.lower():
+                keyboard.release('a')
+            if "jump+d" == message.lower():
+                keyboard.release('d')
+            if "jump+s" == message.lower():
+                keyboard.release('s')
         
