@@ -3,7 +3,7 @@
 # Kudos to https://www.youtube.com/watch?v=T8DLwACpe3o
 
 
-from pynput.mouse import Button, Controller
+from pynput.keyboard import Key, Controller
 import time
 import socket
 import string
