@@ -7,39 +7,47 @@ from pynput.keyboard import Key, Controller
 import time
 import socket
 import string
+import re
 import pyautogui
 
 #Functions
 def openSocket(HOST, PORT, PASS, IDENT, CHANNEL):
+    print("signing into account " + IDENT)
     s = socket.socket()
     s.connect((HOST, PORT))
-    s.send("PASS " + PASS + "\r\n")
-    s.send("NICK " + IDENT + "\r\n")
-    s.join("JOIN #" + CHANNEL + "\r\n")
+    s.send(bytes("PASS " + PASS + "\r\n", encoding='utf8'))
+    s.send(bytes("NICK " + IDENT + "\r\n", 'UTF-8'))
+    s.send(bytes("JOIN #" + CHANNEL + "\r\n", 'UTF-8'))
+    print("sign in complete")
     return s
-
-def joinRoom(s):
-    readbuffer = ""
-    Loading = True
-    while Loading:
-        readbuffer = readbuffer + s.recv(1024)
-        temp = string.split(readbuffer, "\n")
-        readbuffer = temp.pop()
-        for line in temp:
-            Loading = LoadingComplete(line)
-    sendMessage(s, "successfully joined the chat!")
 
 def loadingComplete(line):
     if("End of /NAMES list" in line):
         return False
     else:
         return True
+    
+def joinRoom(s):
+    print("joining chat...")
+    readbuffer = ""
+    Loading = True
+    while Loading:
+        readbuffer = readbuffer + str(s.recv(1024))
+        temp = str.split(readbuffer, "\n")
+        readbuffer = temp.pop()
+        if "Improperly formatted auth" in readbuffer:
+            print("error: improperly formatted auth")
+            quit()
+        Loading = loadingComplete(readbuffer)
+    print("successfully joined chat!")
+    sendMessage(s, "successfully joined the chat!")
+
 
 def sendMessage(s, message):
     global CHANNEL
     messageTemp = "PRIVMSG #" + CHANNEL + " :" + message
-    s.send(messageTemp + "\r\n")
-    print("Sent: " + messageTemp)
+    s.send(bytes(messageTemp + "\r\n",'UTF-8'))
+    print("sent " + messageTemp)
 
 def getUser(line):
     separate = line.split(":", 2)
@@ -47,8 +55,8 @@ def getUser(line):
     return user
 
 def getMessage(line):
-    separate = line.split(":", 2)
-    message = separate[2]
+    message = line.split('PRIVMSG #'+getUser(line)+' :')
+    message = message[len(message)-1].split("\\r\\n")[0]
     return message
 
 def getX(line):
@@ -63,7 +71,12 @@ def getY(line):
 readbuffer = ""
 keyboard = Controller()
 #These lines read the text file and set up the variables of the program. You absolutely do not want to edit these lines.
-settingsFile = open("settings.txt","r")
+print("initializing settings...")
+try:
+    settingsFile = open("settings.txt","r")
+except:
+    print("error: settings file is invalid")
+    quit()
 sfLines = settingsFile.readlines()
 PORT = sfLines[0][5:len(sfLines[0])-1]
 PORT = int(PORT)
@@ -71,19 +84,21 @@ PASS = sfLines[1][5:len(sfLines[1])-1]
 USERNAME = sfLines[2][9:len(sfLines[2])-1]
 CHANNEL = sfLines[3][8:len(sfLines[3])-1]
 settingsFile.close()
-
+print("initialization complete")
+print("now connecting to twitch's APIs")
 s = openSocket("irc.twitch.tv", PORT, PASS, USERNAME, CHANNEL) #Connects to your Twitch profile
 joinRoom(s)
-
 while True:
-    readbuffer = readbuffer + s.recv(1024)
-    temp = string.split(readbuffer, "\n")
-    readbuffer = temp.pop()
+    readbuffer = readbuffer + str(s.recv(1024))
+    temp = str.split(readbuffer, "\n")
+    readbuffer = temp[0]
     for line in temp:
         if "PING :tmi.twitch.tv" == line:
-            s.send("PONG :tmi.twitch.tv")
+            s.send(bytes("PONG :tmi.twitch.tv", 'UTF-8'))
         user = getUser(line)
         message = getMessage(line)
+        if "w" == message.lower() or "a" == message.lower() or "d" == message.lower() or "s" == message.lower() or "jump" in message.lower() or "click" in message.lower():
+            print("took input from "+user+": "+message)
         if "w" == message.lower():
             keyboard.press('w')
             time.sleep(0.3)
