@@ -1,13 +1,14 @@
 # Chris12902#0182
 # 12 May 2020
 # Kudos to https://www.youtube.com/watch?v=T8DLwACpe3o
+# Thanks to Chemiclast, Zoom1220, and Whlteghost for helping QA test this program!
 
-
-from pynput.keyboard import Key, Controller
 import time
 import socket
 import string
+import re
 import pyautogui
+import keyboard
 
 #Functions
 def openSocket(HOST, PORT, PASS, IDENT, CHANNEL):
@@ -17,7 +18,7 @@ def openSocket(HOST, PORT, PASS, IDENT, CHANNEL):
     s.send(bytes("PASS " + PASS + "\r\n", encoding='utf8'))
     s.send(bytes("NICK " + IDENT + "\r\n", 'UTF-8'))
     s.send(bytes("JOIN #" + CHANNEL + "\r\n", 'UTF-8'))
-    print("sign in complete")
+    print("sign in complete!")
     return s
 
 def loadingComplete(line):
@@ -41,7 +42,6 @@ def joinRoom(s):
     print("successfully joined chat!")
     sendMessage(s, "successfully joined the chat!")
 
-
 def sendMessage(s, message):
     global CHANNEL
     messageTemp = "PRIVMSG #" + CHANNEL + " :" + message
@@ -59,16 +59,25 @@ def getMessage(line):
     return message
 
 def getX(line):
-    separate = line.split(",")
+    separate = line.split(",")[0]
+    separate = separate.split(" ")[1]
+    print(separate)
     return separate[0]
 
 def getY(line):
     separate = line.split(",")
     return separate[1]
 
+def KeyPress(key):
+    PressKey(key)
+    time.sleep(0.5)
+    ReleaseKey(key)
+
 #Variables
+
 readbuffer = ""
-keyboard = Controller()
+delay = 750 #in milliseconds
+
 #These lines read the text file and set up the variables of the program. You absolutely do not want to edit these lines.
 print("initializing settings...")
 try:
@@ -99,42 +108,54 @@ while True:
         if "w" == message.lower() or "a" == message.lower() or "d" == message.lower() or "s" == message.lower() or "jump" in message.lower() or "click" in message.lower():
             print("took input from "+user+": "+message)
         if "w" == message.lower():
-            keyboard.press('w')
-            time.sleep(0.3)
-            keyboard.release('w')
+            repeats = 0
+            while repeats < delay:
+                keyboard.press_and_release('w')
+                repeats = repeats + 1
         if "a" == message.lower():
-            keyboard.press('a')
-            time.sleep(0.1)
-            keyboard.release('a')
+            repeats = 0
+            while repeats < delay:
+                keyboard.press_and_release('a')
+                repeats = repeats + 1
         if "d" == message.lower():
-            keyboard.press('d')
-            time.sleep(0.1)
-            keyboard.release('d')
+            repeats = 0
+            while repeats < delay:
+                keyboard.press_and_release('d')
+                repeats = repeats + 1
         if "s" == message.lower():
-            keyboard.press('s')
-            time.sleep(0.1)
-            keyboard.release('s')
+            repeats = 0
+            while repeats < delay:
+                keyboard.press_and_release('s')
+                repeats = repeats + 1
         if "jump" in message.lower():
-            keyboard.press(Key.space)
+            repeats = 0
+            while repeats < 5:
+                keyboard.press_and_release('space')
+                repeats = repeats + 1
             if "jump+w" == message.lower():
-                keyboard.press('w')
+                repeats = 0
+                while repeats < delay:
+                    keyboard.press_and_release('w')
+                    repeats = repeats + 1
             if "jump+a" == message.lower():
-                keyboard.press('a')
+                repeats = 0
+                while repeats < delay:
+                    keyboard.press_and_release('a')
+                    repeats = repeats + 1
             if "jump+d" == message.lower():
-                keyboard.press('d')
+                repeats = 0
+                while repeats < delay:
+                    keyboard.press_and_release('d')
+                    repeats = repeats + 1
             if "jump+s" == message.lower():
-                keyboard.press('s')
-            time.sleep(0.1)
-            keyboard.release(Key.space)
-            if "jump+w" == message.lower():
-                keyboard.release('w')
-            if "jump+a" == message.lower():
-                keyboard.release('a')
-            if "jump+d" == message.lower():
-                keyboard.release('d')
-            if "jump+s" == message.lower():
-                keyboard.release('s')
+                repeats = 0
+                while repeats < delay:
+                    keyboard.press_and_release('s')
+                    repeats = repeats + 1
         if "click" in message.lower():
-            X = getX(message)
-            Y = getY(message)
-            pyautogui.click(x=X,y=Y)
+            try:
+                X = getX(message)
+                Y = getY(message)
+                pyautogui.click(x=int(X),y=int(Y))
+            except:
+                pyautogui.click()
