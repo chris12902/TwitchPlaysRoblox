@@ -10,7 +10,7 @@ If you need any extra help, feel free to contact me on Discord at chris12902#018
 # How to use this program
 When you first install this program, your settings file should appear as the following:
 
-port=0
+port=6667
 
 pass=BOT PASSWORD HERE
 
@@ -18,7 +18,7 @@ username=BOT USERNAME HERE
 
 channel=YOUR USERNAME HERE
 
-In this file, you should set the port to the port of your Twitch stream, the password to the oauth path from http://twitchapps.com/tmi/, the username to the username of the bot you're going to use to monitor the chat, and channel to the username you'd use to log into your Twitch account. For example, if I was signing into a Twitch account named "jackeryzTTV", I would set the channel to "jackeryzTTV". REMEMBER: NEVER GIVE OUT THE PASSWORD TO YOUR TWITCH BOT. OTHERWISE, SOMEONE COULD BREAK INTO YOUR ACCOUNT AND TERRORIZE YOUR STREAM.
+In this file, you should set the password to the oauth path from http://twitchapps.com/tmi/, the username to the username of the bot you're going to use to monitor the chat, and channel to the username you'd use to log into your Twitch account. For example, if I was signing into a Twitch account named "jackeryzTTV", I would set the channel to "jackeryzTTV". REMEMBER: NEVER GIVE OUT THE PASSWORD TO YOUR TWITCH BOT. OTHERWISE, SOMEONE COULD BREAK INTO YOUR ACCOUNT AND TERRORIZE YOUR STREAM.
 
 Afterwards, you just need to run the Python file, and the bot should start running immediately. Be sure to close the Python file when you finish streaming. Please report any bugs that you may encounter!
 
