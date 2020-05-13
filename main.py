@@ -80,8 +80,8 @@ while True:
     temp = string.split(readbuffer, "\n")
     readbuffer = temp.pop()
     for line in temp:
-        if "PING" in line:
-            s.send(line.replace("PING", "PONG"))
+        if "PING :tmi.twitch.tv" == line:
+            s.send("PONG :tmi.twitch.tv")
         user = getUser(line)
         message = getMessage(line)
         if "w" == message.lower():
