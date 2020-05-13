@@ -2,9 +2,12 @@
 # 12 May 2020
 # Kudos to https://www.youtube.com/watch?v=T8DLwACpe3o
 
+
+from pynput.mouse import Button, Controller
+import time
 import socket
 import string
-from pynput.keyboard import Key, Controller
+import pyautogui
 
 #Functions
 def openSocket(HOST, PORT, PASS, IDENT, CHANNEL):
@@ -48,6 +51,14 @@ def getMessage(line):
     message = separate[2]
     return message
 
+def getX(line):
+    separate = line.split(",")
+    return separate[0]
+
+def getY(line):
+    separate = line.split(",")
+    return separate[1]
+
 #Variables
 readbuffer = ""
 keyboard = Controller()
@@ -89,7 +100,7 @@ while True:
             keyboard.press('s')
             time.sleep(0.1)
             keyboard.release('s')
-        if "jump" == message.lower():
+        if "jump" in message.lower():
             keyboard.press(Key.space)
             if "jump+w" == message.lower():
                 keyboard.press('w')
@@ -109,4 +120,7 @@ while True:
                 keyboard.release('d')
             if "jump+s" == message.lower():
                 keyboard.release('s')
-        
+        if "click" in message.lower():
+            X = getX(message)
+            Y = getY(message)
+            pyautogui.click(x=X,y=Y)
