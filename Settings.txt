@@ -1,4 +1,4 @@
-port=0
+port=6667
 pass=BOT PASSWORD HERE
 username=BOT USERNAME HERE
 channel=YOUR USERNAME HERE
