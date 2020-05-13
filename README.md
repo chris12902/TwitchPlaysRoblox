@@ -3,7 +3,7 @@
 # General info
 Hello! This is TwitchPlaysRoblox, a Twitch bot that plays a Roblox game by taking in commands from the chat, similarly to TwitchPlaysPokemon.
 In order to use this bot, you will first need to change a few lines in settings.txt. I will walk you through how to do this.
-To use this program, you will need to install Python 3. It does not matter which version of Python you use as long as it is above 3.
+To use this program, you will need to install Python 3. It does not matter which version of Python you use as long as it is above 3. Additionally, be sure to install the module "pynput" using `pip install pynput`.
 You will need to set up a new account to use this program. I do not know if you can set up your account with Twitch's developer tools and still use said account for streaming, but if you can actually do this (I did not refer to the Twitch developer tools' guidelines in creating this bot, and I have not used Twitch in at least a year) I'd say go ahead and do that instead of making another account.
 If you need any extra help, feel free to contact me on Discord at chris12902#0182
 
