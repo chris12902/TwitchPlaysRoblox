@@ -1,7 +1,6 @@
 # Chris12902#0182
 # 12 May 2020
 # Kudos to https://www.youtube.com/watch?v=T8DLwACpe3o
-# Thanks to Chemiclast, Zoom1220, and Whlteghost for helping QA test this program!
 
 import time
 import socket
@@ -61,7 +60,6 @@ def getMessage(line):
 def getX(line):
     separate = line.split(",")[0]
     separate = separate.split(" ")[1]
-    print(separate)
     return separate[0]
 
 def getY(line):
@@ -76,7 +74,7 @@ def KeyPress(key):
 #Variables
 
 readbuffer = ""
-delay = 750 #in milliseconds
+delay = .5 #in milliseconds
 
 #These lines read the text file and set up the variables of the program. You absolutely do not want to edit these lines.
 print("initializing settings...")
@@ -108,54 +106,46 @@ while True:
         if "w" == message.lower() or "a" == message.lower() or "d" == message.lower() or "s" == message.lower() or "jump" in message.lower() or "click" in message.lower():
             print("took input from "+user+": "+message)
         if "w" == message.lower():
-            repeats = 0
-            while repeats < delay:
-                keyboard.press_and_release('w')
-                repeats = repeats + 1
+            keyboard.press('w')
+            time.sleep(delay)
+            keyboard.release('w')
         if "a" == message.lower():
-            repeats = 0
-            while repeats < delay:
-                keyboard.press_and_release('a')
-                repeats = repeats + 1
+            keyboard.press('a')
+            time.sleep(delay)
+            keyboard.release('a')
         if "d" == message.lower():
-            repeats = 0
-            while repeats < delay:
-                keyboard.press_and_release('d')
-                repeats = repeats + 1
+            keyboard.press('d')
+            time.sleep(delay)
+            keyboard.release('d')
         if "s" == message.lower():
-            repeats = 0
-            while repeats < delay:
-                keyboard.press_and_release('s')
-                repeats = repeats + 1
+            keyboard.press('s')
+            time.sleep(delay)
+            keyboard.release('s')
         if "jump" in message.lower():
-            repeats = 0
-            while repeats < 5:
-                keyboard.press_and_release('space')
-                repeats = repeats + 1
+            keyboard.press_and_release('space')
             if "jump+w" == message.lower():
-                repeats = 0
-                while repeats < delay:
-                    keyboard.press_and_release('w')
-                    repeats = repeats + 1
+                keyboard.press('w')
+                time.sleep(delay)
+                keyboard.release('w')
             if "jump+a" == message.lower():
-                repeats = 0
-                while repeats < delay:
-                    keyboard.press_and_release('a')
-                    repeats = repeats + 1
+                keyboard.press('a')
+                time.sleep(delay)
+                keyboard.release('a')
             if "jump+d" == message.lower():
-                repeats = 0
-                while repeats < delay:
-                    keyboard.press_and_release('d')
-                    repeats = repeats + 1
+                keyboard.press('d')
+                time.sleep(delay)
+                keyboard.release('d')
             if "jump+s" == message.lower():
-                repeats = 0
-                while repeats < delay:
-                    keyboard.press_and_release('s')
-                    repeats = repeats + 1
+                keyboard.press('s')
+                time.sleep(delay)
+                keyboard.release('s')
         if "click" in message.lower():
             try:
-                X = getX(message)
-                Y = getY(message)
-                pyautogui.click(x=int(X),y=int(Y))
+                width, height = pyautogui.size()
+                if (0<x and x<width) and (0<y and y<height):
+                    X = getX(message)
+                    Y = getY(message)
+                    print(Y)
+                    pyautogui.click(x=int(X),y=int(Y))
             except:
                 pyautogui.click()
