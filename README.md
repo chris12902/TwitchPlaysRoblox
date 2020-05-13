@@ -21,3 +21,24 @@ channel=YOUR USERNAME HERE
 In this file, you should set the port to the port of your Twitch stream, the password to the oauth path in your twitchapps, the username to the username of the bot you're going to use to monitor the chat, and channel to the username you'd use to log into your Twitch account. For example, if I was signing into a Twitch account named "jackeryzTTV", I would set the channel to "jackeryzTTV". REMEMBER: NEVER GIVE OUT THE PASSWORD TO YOUR TWITCH BOT. OTHERWISE, SOMEONE COULD BREAK INTO YOUR ACCOUNT AND TERRORIZE YOUR STREAM.
 
 Afterwards, you just need to run the Python file, and the bot should start running immediately. Be sure to close the Python file when you finish streaming. Please report any bugs that you may encounter!
+
+# Syntax
+w = walk forwards
+
+a = walk to the left
+
+d = walk to the right
+
+s = walk backwards
+
+jump = jump
+
+jump+w = jump and move forwards
+
+jump+a = jump and move to the left
+
+jump+s = jump and move to the right
+
+jump+d = jump and move backwards
+
+click x,y = move the mouse to a position and click
