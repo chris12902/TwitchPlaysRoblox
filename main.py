@@ -7,7 +7,6 @@ from pynput.keyboard import Key, Controller
 import time
 import socket
 import string
-import re
 import pyautogui
 
 #Functions
